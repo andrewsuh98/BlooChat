@@ -23,14 +23,23 @@ app.get("/chatroom", (req, res) => {
 });
 
 io.on("connection", function (socket) {
-  //io.emit("message", "connected!"); //TODO: tell user logged in
+  socket.emit("message", { //TODO: append user name / show online users
+    user: "BlooChatApp",
+    message: "Welcome, NAME!",
+    green: true,
+  });
+
   socket.on("message", (msg) => {
     debug(`${msg.user}: ${msg.message}`);
     //Broadcast the message to everyone
     io.emit("message", msg);
   });
   socket.on('disconnect', () => {
-  //  io.emit("message", "disconnected!"); //TODO: tell user has disconnected
+    io.emit("message", { // TODO: append user name
+      user: "BlooChatApp",
+      message: "NAME has disconnected.",
+      red: true,
+    });
   });
 });
 
