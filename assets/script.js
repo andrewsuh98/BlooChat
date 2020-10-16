@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", (_event) => {
   // append the chat text message
   socket.on("message", (msg) => {
     const message = document.createElement("li");
-    message.innerHTML = `<strong>${msg.user}</strong>: ${msg.message}`;
+    message.innerHTML = `<u><strong>${msg.user}</strong></u>: ${msg.message}`;
     messages.appendChild(message);
   });
 });

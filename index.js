@@ -23,10 +23,14 @@ app.get("/chatroom", (req, res) => {
 });
 
 io.on("connection", function (socket) {
+  //io.emit("message", "connected!"); //TODO: tell user logged in
   socket.on("message", (msg) => {
     debug(`${msg.user}: ${msg.message}`);
     //Broadcast the message to everyone
     io.emit("message", msg);
+  });
+  socket.on('disconnect', () => {
+  //  io.emit("message", "disconnected!"); //TODO: tell user has disconnected
   });
 });
 
