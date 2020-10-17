@@ -22,14 +22,7 @@ document.addEventListener("DOMContentLoaded", (_event) => {
   // append the chat text message
   socket.on("message", (msg) => {
     const message = document.createElement("li");
-    if (msg.green == true) {
-      message.innerHTML = `<span style="color: green"><u><strong>${msg.user}</strong></u>: ${msg.message}</span>`;
-    } else if (msg.red == true) {
-      message.innerHTML = `<span style="color: red"><u><strong>${msg.user}</strong></u>: ${msg.message}</span>`;
-    }
-    else {
-      message.innerHTML = `<u><strong>${msg.user}</strong></u>: ${msg.message}`;
-    }
+    message.innerHTML = `<u><strong>${msg.user}</strong></u>: ${msg.message}`;
     messages.appendChild(message);
   });
 
@@ -51,5 +44,10 @@ document.addEventListener("DOMContentLoaded", (_event) => {
     messages.appendChild(message);
   });
 
+  socket.on("disconnect-message", (info) => {
+    const message = document.createElement("li");
+    message.innerHTML = `<span style="color: red"><u><strong>${"BlooChatApp"}</strong></u>: ${info.user} ${" has disconnected."}</span>`;
+    messages.appendChild(message);
+  });
 
 });

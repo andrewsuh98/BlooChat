@@ -25,7 +25,7 @@ app.get("/chatroom", (req, res) => {
 
 io.on("connection", function (socket) {
 
-  socket.on("login", (login) => { // TODO: show current online users
+  socket.on("login", (login) => {
 
     socket.broadcast.emit("joined-message", {
       user: login.user,
@@ -49,7 +49,6 @@ io.on("connection", function (socket) {
       users: onlineUsers,
     });
     onlineUsers = "";
-
     users[socket.id] = login.user;
   });
 
@@ -61,11 +60,10 @@ io.on("connection", function (socket) {
   });
 
   socket.on('disconnect', () => {
-    io.emit("message", { // TODO: append user name
-      user: "BlooChatApp",
-      message: "NAME has disconnected.",
-      red: true,
+    io.emit("disconnect-message", { // TODO: append user name
+      user: users[socket.id],
     });
+    delete users[socket.id];
   });
 
 });
