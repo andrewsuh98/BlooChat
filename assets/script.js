@@ -32,4 +32,24 @@ document.addEventListener("DOMContentLoaded", (_event) => {
     }
     messages.appendChild(message);
   });
+
+  socket.on("joined-message", (user) => {
+    const message = document.createElement("li");
+    message.innerHTML = `<span style="color: green"><u><strong>${"BlooChatApp"}</strong></u>: ${user.user} ${"has joined the room."} </span>`;
+    messages.appendChild(message);
+  });
+
+  socket.on("welcome-message", (user) => {
+    const message = document.createElement("li");
+    message.innerHTML = `<span style="color: green"><u><strong>${"BlooChatApp"}</strong></u>: ${"Welcome, "} ${user.user}  </span>`;
+    messages.appendChild(message);
+  });
+
+  socket.on("online-users-message", (info) => {
+    const message = document.createElement("li");
+    message.innerHTML = `<span style="color: green"><u><strong>${"BlooChatApp"}</strong></u>: ${"Online users: "} ${info.users}  </span>`;
+    messages.appendChild(message);
+  });
+
+
 });
