@@ -5,6 +5,11 @@ document.addEventListener("DOMContentLoaded", (_event) => {
   const form = document.getElementById("chatForm");
   const messages = document.getElementById("messages");
   const messageToSend = document.getElementById("txt");
+
+  socket.emit("login", {
+    user: username,
+  });
+
   form.addEventListener("submit", (event) => {
     socket.emit("message", {
       user: username,

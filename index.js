@@ -23,17 +23,27 @@ app.get("/chatroom", (req, res) => {
 });
 
 io.on("connection", function (socket) {
-  socket.emit("message", { //TODO: append user name / show online users
-    user: "BlooChatApp",
-    message: "Welcome, NAME!",
-    green: true,
+
+  socket.on("login", (login) => { // TODO: show current online users
+    socket.broadcast.emit("message", {
+      user: "BlooChatApp",
+      message: login.user + " has joined.",
+      green: true,
+    });
+    socket.emit("message", {
+      user: "BlooChatApp",
+      message: "Welcome, " + login.user,
+      green: true,
+    });
   });
+
 
   socket.on("message", (msg) => {
     debug(`${msg.user}: ${msg.message}`);
     //Broadcast the message to everyone
     io.emit("message", msg);
   });
+
   socket.on('disconnect', () => {
     io.emit("message", { // TODO: append user name
       user: "BlooChatApp",
@@ -41,6 +51,7 @@ io.on("connection", function (socket) {
       red: true,
     });
   });
+
 });
 
 http.listen(port, () => {
