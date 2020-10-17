@@ -29,28 +29,32 @@ document.addEventListener("DOMContentLoaded", (_event) => {
 
   socket.on("joined-message", (user) => {
     const message = document.createElement("li");
-    message.innerHTML = `<span style="color: green"><u><strong>BlooChatApp</strong></u>: ${user.user} has joined the room.</span>`;
+    message.innerHTML = `<span style="color: #99ff99"><u><strong>BlooChatApp</strong></u>: ${user.user} has joined the room.</span>`;
     messages.appendChild(message);
     document.getElementById('messages').scrollTop = message.offsetHeight + message.offsetTop;
   });
 
   socket.on("welcome-message", (user) => {
     const message = document.createElement("li");
-    message.innerHTML = `<span style="color: green"><u><strong>BlooChatApp</strong></u>: Welcome, ${user.user}  </span>`;
+    message.innerHTML = `<span style="color: #99ff99"><u><strong>BlooChatApp</strong></u>: Welcome, ${user.user}!</span>`;
     messages.appendChild(message);
     document.getElementById('messages').scrollTop = message.offsetHeight + message.offsetTop;
   });
 
   socket.on("online-users-message", (info) => {
     const message = document.createElement("li");
-    message.innerHTML = `<span style="color: green"><u><strong>BlooChatApp</strong></u>: Online users: ${info.users}  </span>`;
+    if (info.users == "") {
+      message.innerHTML = `<span style="color: #99ff99"><u><strong>BlooChatApp</strong></u>: Unfortunately, nobody is online at the moment.</span>`;
+    } else {
+      message.innerHTML = `<span style="color: #99ff99"><u><strong>BlooChatApp</strong></u>: Online users: ${info.users}</span>`;
+    }
     messages.appendChild(message);
     document.getElementById('messages').scrollTop = message.offsetHeight + message.offsetTop;
   });
 
   socket.on("disconnect-message", (info) => {
     const message = document.createElement("li");
-    message.innerHTML = `<span style="color: red"><u><strong>BlooChatApp</strong></u>: ${info.user} has disconnected.</span>`;
+    message.innerHTML = `<span style="color: #ff6666"><u><strong>BlooChatApp</strong></u>: ${info.user} has disconnected.</span>`;
     messages.appendChild(message);
     document.getElementById('messages').scrollTop = message.offsetHeight + message.offsetTop;
   });
