@@ -26,41 +26,38 @@ app.get("/chatroom", (req, res) => {
 io.on("connection", function (socket) {
 
   socket.on("login", (login) => {
-
+    // announce to everybody except this user that a new user has joined
     socket.broadcast.emit("joined-message", {
       user: login.user,
     });
 
+    // show a welcome message to the new user
     socket.emit("welcome-message", {
       user: login.user,
     });
 
-    let onlineUsers = "";
-    let i = 0;
-    for (const [key, value] of Object.entries(users)) {
-      if (i == 0) {
-        onlineUsers = onlineUsers.concat(value.toString());
-      } else {
-        onlineUsers = onlineUsers.concat(", ", value.toString());
-      }
-      i++;
-    }
+    // show the list of all online users
+    const onlineUsers = onlineUsersToString();
     socket.emit("online-users-message", {
       users: onlineUsers,
     });
-    onlineUsers = "";
+
+    // add this user to the object of users
     users[socket.id] = login.user;
   });
 
 
+  // send a regular message to everyone
   socket.on("message", (msg) => {
     debug(`${msg.user}: ${msg.message}`);
     //Broadcast the message to everyone
     io.emit("message", msg);
   });
 
+  // on disconnect, tell everybody that this user has disconnected,
+  // then delete the user from the object of users.
   socket.on('disconnect', () => {
-    io.emit("disconnect-message", { // TODO: append user name
+    io.emit("disconnect-message", {
       user: users[socket.id],
     });
     delete users[socket.id];
@@ -71,3 +68,18 @@ io.on("connection", function (socket) {
 http.listen(port, () => {
   console.log(`Express app listening at http://localhost:${port}`);
 });
+
+// returns the list of users as a string
+function onlineUsersToString() {
+  let i = 0;
+  let str = "";
+  for (const [key, value] of Object.entries(users)) {
+    if (i == 0) {
+      str = str.concat(value.toString());
+    } else {
+      str = str.concat(", ", value.toString());
+    }
+    i++;
+  }
+  return str;
+}
