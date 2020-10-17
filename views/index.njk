@@ -8,6 +8,7 @@
   </head>
   <body>
     <div class="chat">
+      {% block chat %}
       <h1>Welcome
         <br><br>to<br><br>
         Bloo Chat!</h1>
@@ -15,6 +16,9 @@
         <input name="uname" id="txt" autocomplete="off" autofocus="on" placeholder="type your nickname here..."/>
         <button type="login">Join</button>
       </form>
+      {% endblock %}
     </div>
+    {% block script %}
+    {% endblock %}
   </body>
 </html>
