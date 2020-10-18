@@ -46,7 +46,6 @@ io.on("connection", function (socket) {
     users[socket.id] = login.user;
   });
 
-
   // send a regular message to everyone
   socket.on("message", (msg) => {
     debug(`${msg.user}: ${msg.message}`);

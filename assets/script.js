@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", (_event) => {
 
   socket.on("disconnect-message", (info) => {
     const message = document.createElement("li");
-    message.innerHTML = `<span style="color: #ff6666"><u><strong>BlooChatApp</strong></u>: ${info.user} has disconnected.</span>`;
+    message.innerHTML = `<span style="color: #ff6666"><u><strong>BlooChatApp</strong></u>: ${info.user} has left the room.</span>`;
     messages.appendChild(message);
     document.getElementById('messages').scrollTop = message.offsetHeight + message.offsetTop;
   });
